@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #ffc2c2; /* 背景色をピンクに */
+            background-color: #ffc2c2; /* ピンク */
         }
         h1 {
             font-family: 'Spicy Rice', cursive; /* Spicy Riceフォントを適用 */
@@ -23,7 +23,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
-                window.location.href = "{{ url_for('move_quiz') }}"; // Flaskのmove_quizルートに移動
+                window.location.href = "{{ url_for('move_quiz') }}"; 
             }, 3000);
         });
     </script>
