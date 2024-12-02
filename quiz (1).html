@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffe5e5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+        }
+        .anagram {
+            display: inline-block;
+            background-color: #b2fab4;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button.check {
+            background-color: #ff7f7f;
+            color: white;
+        }
+        button.next {
+            background-color: #ff7f7f;
+            color: white;
+        }
+        button.check:hover {
+            background-color: #ff4f4f;
+        }
+        button.next:hover {
+            background-color: #ff4f4f;
+        }
+        .incorrect {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="anagram">{{ anagram }}</div>
+        <div class="options">
+            {% for option in options %}
+            <div>
+                <input type="radio" name="answer" value="{{ option }}" id="{{ option }}">
+                <label for="{{ option }}">{{ option }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="check" onclick="checkAnswer()">Check!</button>
+        <button class="next" onclick="nextQuiz()">Next Quiz</button>
+        <div class="correct" id="success" style="display: none; color: blue; font-weight: bold;">Genius!</div>
+        <div class="incorrect" id="feedback" style="display: none;">不正解です！</div>
+    </div>
+    <div class="correct-image" id="correctImage"></div>
+    <script>
+        function checkAnswer() {
+            const selected = document.querySelector('input[name="answer"]:checked');
+            const feedback = document.getElementById('feedback');
+            const success = document.getElementById('success');
+             // 選択肢が変更されたら、初期状態に戻す
+            feedback.style.display = "none";
+            success.style.display = "none";
+            
+            if (!selected) {
+                alert("Choose your answer!");
+                return;
+            }
+
+            const correctAnswer = "{{ correct_answer }}"; // 正解をサーバーから受け取る
+            if (selected.value === correctAnswer) {
+                success.style.display = "block";
+            } else {
+                feedback.style.display = "block";
+                selected.parentElement.style.color = "red"; 
+            }
+        }
+
+        function nextQuiz() {
+            window.location.href = "{{ url_for('move_quiz') }}"; // 新しいクイズを取得
+        }
+    </script>
+</body>
+</html>
